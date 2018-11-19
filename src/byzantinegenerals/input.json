@@ -1,0 +1,55 @@
+[
+  {
+    "m": 3,
+    "G": [{"0": true}, {"1": true}, {"2": false}, {"3": true}],
+    "Oc": "ATTACK"
+  },
+  {
+    "m": 2,
+    "G": [
+      {"0": false},
+      {"1": true},
+      {"2": false},
+      {"3": true},
+      {"4": true},
+      {"5": true},
+      {"6": true}
+    ],
+    "Oc": "RETREAT"
+  },
+  {
+    "m": 3,
+    "G": [
+      {"0": true},
+      {"1": true},
+      {"2": true},
+      {"3": true},
+      {"4": false},
+      {"5": false},
+      {"6": true},
+      {"7": true},
+      {"8": false},
+      {"9": true}
+    ],
+    "Oc": "RETREAT"
+  },
+  {
+    "m": 4,
+    "G": [
+      {"0": false},
+      {"1": true},
+      {"2": true},
+      {"3": true},
+      {"4": true},
+      {"5": false},
+      {"6": true},
+      {"7": true},
+      {"8": false},
+      {"9": true},
+      {"10": true},
+      {"11": true},
+      {"12": false}
+    ],
+    "Oc": "ATTACK"
+  }
+]
