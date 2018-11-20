@@ -1,6 +1,8 @@
 from general import General
+from general_seq import SeqGeneral
 import threading
 import json
+import time
 
 global ATTACK
 ATTACK = True
@@ -15,7 +17,7 @@ def majority_vote(votes):
             AVotes += 1
         elif v == RETREAT:
             RVotes += 1
-        #ignore other values for votes
+        #ignore other values for votes (if they exist)
 
     #determine relative majority
     if AVotes > RVotes:
@@ -35,20 +37,34 @@ def run_test(m, generals, Oc):
     for i in range(1, len(generals)+1):
         id_gen_mapping[i] = generals[i-1]
 
+    t0 = time.clock()
     #send message to each general
     for g in generals:
         t = threading.Thread(target=General.send_value, args=(g, Oc, m, id_ls, id_gen_mapping))
+        #for performance comparison
+        #t = threading.Thread(target=SeqGeneral.send_value, args=(g, Oc, m, id_ls, id_gen_mapping))
         threads.append(t)
         t.start()
 
     #wait for threads to finish
     for n in range(len(threads)):
         threads[n].join()
+    #calculate run time of main process (message exchange)
+    print "Message Exchange: Time elapsed (sec) = {}".format(time.clock() - t0)
 
-    #calculate relative majority for each general's received values
-    gen_votes = [majority_vote(g.vals_received) for g in generals]
-    decision = majority_vote(gen_votes)
-    passed = False if Oc != decision else True #according to IC2 from paper
+    #calculate relative majority for each loyal general's received values
+    gen_votes = [majority_vote(g.vals_received) for g in generals if g.loyal]
+    #print gen_votes
+
+    #check if results meet IC1 and IC2 from paper
+    passed = True
+    #if commander is loyal, all loyal generals should follow its order (IC2)
+    #otherwise, just check that all loyal generals follow same order (IC1)
+    expected_decision = Oc if G0.loyal else gen_votes[0]
+    for vote in gen_votes:
+        if vote != expected_decision:
+            passed = False
+            break
 
     print "Test passed: {}".format(passed)
 
@@ -64,6 +80,8 @@ def main():
         for g in general_objs:
             key = g.keys()[0]
             generals.append(General(int(key), g[key]))
+            #for performance comparison
+            #generals.append(SeqGeneral(int(key), g[key]))
         Oc = ATTACK if test["Oc"] == "ATTACK" else RETREAT
 
         run_test(m, generals, Oc)

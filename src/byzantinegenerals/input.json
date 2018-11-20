@@ -1,7 +1,7 @@
 [
   {
-    "m": 3,
-    "G": [{"0": true}, {"1": true}, {"2": false}, {"3": true}],
+    "m": 1,
+    "G": [{"0": true}, {"1": true}, {"2": true}, {"3": false}],
     "Oc": "ATTACK"
   },
   {
@@ -47,8 +47,8 @@
       {"8": false},
       {"9": true},
       {"10": true},
-      {"11": true},
-      {"12": false}
+      {"11": false},
+      {"12": true}
     ],
     "Oc": "ATTACK"
   }
